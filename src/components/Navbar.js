@@ -4,7 +4,6 @@ import * as AiIcons from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import { NavbarData } from './NavbarData';
 import { IconContext } from 'react-icons';
-import './Navbar.css';
 
 function Navbar() {
     const [sidebar, toggleSidebar] = useState(false);
