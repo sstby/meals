@@ -19,7 +19,6 @@ const Recipes = (props) => {
 
     }, [])
     return (
-        <div className='main-wrapper'>
             <div className='main-content'>
                 <h1>Recipes</h1>
                 <div className='recipes'>
@@ -34,14 +33,6 @@ const Recipes = (props) => {
 
                 </div>
             </div>
-            <div className='main-shoplist'>
-                <Shoplist 
-                removeFromShoplist={props.removeFromShoplist} 
-                updateShopList={props.updateShopList}
-                shoplist={props.shoplist} 
-                />
-            </div>
-        </div>
     )
     
 }

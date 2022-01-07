@@ -79,6 +79,7 @@ class App extends React.Component {
             <div className='content'>
               <Sidebar sidebar={this.state.sidebar} />
               <div className={ this.state.sidebar ? 'main' : 'main main-max'}>
+                <div className='main-wrapper'>
               <Routes>
                 <Route exact path='/' element={<Home  />} />
                 <Route path='/recipes' element={<Recipes
@@ -91,6 +92,15 @@ class App extends React.Component {
                                                 />} />
                 <Route path='/recipes/:recipeID' element={<RecipePage />} />
               </Routes>
+                  <div className='main-shoplist'>
+                    <Shoplist 
+                    removeFromShoplist={this.removeFromShoplist} 
+                    updateShopList={this.updateShopList}
+                    shoplist={this.state.shoplist} 
+                    />
+                  </div>
+
+                </div>
               </div>
             </div>
         </Router>
