@@ -1,0 +1,31 @@
+.ingridients-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    max-width: 80%;
+}
+
+.ingridients-list li {
+    padding: 0;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.ingridients-list li span {
+    background-color: var(--bg-primary);
+    margin: 0;
+}
+
+.ingridients-list .space {
+    flex: 1;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.ingridients-list .text{
+    padding-right: 5px;
+}
+
+.ingridients-list .count{
+    padding-left: 5px;
+}
