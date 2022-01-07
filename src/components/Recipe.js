@@ -1,27 +1,32 @@
-import React from 'react'
-/* import { Link } from 'react-router-dom' */
-import { ref } from "firebase/storage";
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { storage } from '../firebase'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 
 const Recipe = (props) => {
     const details = props.details;
-    const storageRef = ref(storage, details.image)
+    const recipe_link = `/recipes/${details.id}`;
+    const [image, setImage] = useState('');
 
-    const handleAddToShoplist = (ingridients) => {
-        props.addToShoplist(ingridients)
-    }
-
-    const openRecipePage = (recipe) => {
-        console.log(details.id)
-    }
+    useEffect(() => {
+        const getImage = async () => {
+            setImage(await getDownloadURL(ref(storage, details.image)))
+        }
+        getImage();
+    }, [details.image])
 
     return(
         <div className='recipe'>
-            <img src={storageRef.fullPath} alt='recipe'></img>
+            <Link to={recipe_link}>
+                <img src={image} alt='recipe'></img>
+            </Link>
+            
             <div className='recipe-info'>
                 <div className='recipe-info-row1'>
-                    <h3 onClick={openRecipePage}>{details.name}</h3>
+                    <Link to={recipe_link}>
+                        <h3>{details.name}</h3>
+                    </Link>
                     <span>{details.mealtime}</span>
                 </div>
                 <div className='recipe-info-row2'>
@@ -34,7 +39,7 @@ const Recipe = (props) => {
                 </div>
                 <div className='recipe-info-row3'>
                     <span>{Object.keys(details.Ingridients).length} Ingridients</span>
-                    <button onClick={() => handleAddToShoplist(details.Ingridients)}>Add ingridients to shoplist</button>
+                    <button onClick={() => props.addToShoplist(details.Ingridients)}>Add ingridients to shoplist</button>
                 </div>
             </div>
         </div>   
