@@ -9,18 +9,18 @@ export const NavbarData = [
         title: 'Home',
         path: '/',
         icon: <AiIcons.AiFillHome />,
-        class: 'nav-text'
+        class: 'nav-item'
     },
     {
         title: 'Recipes',
         path: '/recipes',
         icon: <BiIcons.BiFoodMenu />,
-        class: 'nav-text'
+        class: 'nav-item'
     },
     {
-        title: 'Shop List',
+        title: 'ShopList',
         path: '/shoplist',
         icon: <FaIcons.FaCartPlus />,
-        class: 'nav-text'
+        class: 'nav-item'
     },
 ]

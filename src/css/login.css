@@ -1,0 +1,14 @@
+.login-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
