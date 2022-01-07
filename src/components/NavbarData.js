@@ -17,16 +17,10 @@ export const NavbarData = [
         icon: <BiIcons.BiFoodMenu />,
         class: 'nav-text'
     },
-/*     {
-        title: 'ShopList',
+    {
+        title: 'Shop List',
         path: '/shoplist',
         icon: <FaIcons.FaCartPlus />,
-        class: 'nav-item'
-    }, */
-    {
-        title: 'New recipe',
-        path: '/newrecipe',
-        icon: <AiIcons.AiOutlinePlus />,
-        class: 'nav-item'
+        class: 'nav-text'
     },
 ]
