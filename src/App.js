@@ -7,6 +7,7 @@ import React from 'react';
 import Header from './components/Header'
 import Sidebar from './components/Sidebar';
 import RecipePage from './pages/RecipePage'
+import { MyContextProvider  } from './context/MyContext'
 
 class App extends React.Component {
 
@@ -75,11 +76,11 @@ class App extends React.Component {
   render() {
     return (
         <Router>
+          <MyContextProvider>
           <Header user={this.state.user} modalSignIn={this.state.modalSignIn} showSignInModal={this.showSignInModal} showSidebar={this.showSidebar} />
             <div className='content'>
               <Sidebar sidebar={this.state.sidebar} />
               <div className={ this.state.sidebar ? 'main' : 'main main-max'}>
-                <div className='main-wrapper'>
               <Routes>
                 <Route exact path='/' element={<Home  />} />
                 <Route path='/recipes' element={<Recipes
@@ -99,10 +100,9 @@ class App extends React.Component {
                     shoplist={this.state.shoplist} 
                     />
                   </div>
-
-                </div>
               </div>
             </div>
+            </MyContextProvider>
         </Router>
     );
   }
