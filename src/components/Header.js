@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import * as FaIcons from "react-icons/fa";
 import ModalSignIn from './ModalSignIn'
 import Login from './Login';
-import { auth } from '../firebase';
 
 const Header = (props) => {
     const [modalActive, setModalActive] = useState(false)
