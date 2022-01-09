@@ -12,8 +12,7 @@ import { auth } from "../firebase";
 const MyContext = createContext();
 
 export function MyContextProvider({ children }) {
-
-    //Всё, что связано с авторизацией пользователя
+  //Всё, что связано с авторизацией пользователя
   const [user, setUser] = useState({});
 
   function logIn(email, password) {
@@ -32,7 +31,6 @@ export function MyContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log("Auth", currentuser);
       setUser(currentuser);
     });
 
@@ -42,9 +40,7 @@ export function MyContextProvider({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn }}
-    >
+    <MyContext.Provider value={{ user, logIn, signUp, logOut, googleSignIn }}>
       {children}
     </MyContext.Provider>
   );

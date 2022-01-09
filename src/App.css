@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap");
 /* background-color: rgb(100, 187, 155); */
 /* font-family: 'Lato', sans-serif; */
 
 :root {
   font-size: 16px;
-  font-family: 'Lato', sans-serif;
-  --text-primary: #0D353F;
+  font-family: "Lato", sans-serif;
+  --text-primary: #0d353f;
   --text-secondary: #ececec;
   --bg-primary: rgb(242, 242, 234);
   --bg-secondary: rgb(100, 187, 155);
@@ -37,12 +37,10 @@ header {
   flex-direction: row;
   align-items: center;
   align-content: center;
-  padding-left: 1.3rem ;
-  
+  padding-left: 1.3rem;
 }
 .header-left a {
   color: var(--text-secondary);
-  
 }
 .header-left h2 {
   margin-top: 0.9rem;
@@ -78,12 +76,13 @@ header svg {
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 90%;
 }
 
-.nav-item {
-  width: 100%;
-}
+/* .nav-item {
+  width: 95%;
+} */
 
 .nav-item:first-child {
   margin-top: 1rem;
@@ -103,7 +102,7 @@ header svg {
   text-decoration: none;
 }
 
-.navbar-mini ul li a span{
+.navbar-mini ul li a span {
   display: none;
   margin-left: 1rem;
 }
@@ -112,7 +111,6 @@ header svg {
   margin-left: 1rem;
   font-size: 1.5rem;
   font-weight: 700;
-  
 }
 
 .nav-link svg {
@@ -144,8 +142,7 @@ header svg {
   display: flex;
   flex-direction: row;
 }
-.main-content
-{
+.main-content {
   flex: 3;
   display: flex;
   flex-direction: column;
@@ -169,10 +166,9 @@ header svg {
   flex-direction: row;
   padding: 1rem;
   border-radius: 4px;
-
 }
 
-.recipe img{
+.recipe img {
   width: 180px;
   height: 180px;
 }

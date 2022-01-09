@@ -1,17 +1,21 @@
-import React from 'react'
-import '../css/modal.css'
+import React from "react";
+import Auth from "./Auth";
+import "../css/modal.css";
 
-const ModalSignIn = ({active, setActive, children}) => {
+const ModalSignIn = ({ active, setActive }) => {
+  return (
+    <div
+      className={active ? "modal active" : "modal"}
+      onClick={() => setActive(false)}
+    >
+      <div
+        className={active ? "modal-content active" : "modal-content"}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Auth type="login" setModalActive={setActive} />
+      </div>
+    </div>
+  );
+};
 
-    
-
-    return (
-        <div className={active ? 'modal active' : 'modal'} onClick={() => setActive(false)}>
-            <div className={active ? 'modal-content active' : 'modal-content'} onClick={e => e.stopPropagation()}>
-                {children}
-            </div>
-        </div>
-    )
-}
-
-export default ModalSignIn
+export default ModalSignIn;
