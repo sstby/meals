@@ -27,7 +27,7 @@ class App extends React.Component {
     this.setState({ modalSignIn: true });
   };
 
-  addToShoplist = (ingridients) => {
+  addToShoplist = (ingridients, portions) => {
     //Делаем копию объекта shoplist в state
     const shoplist = { ...this.state.shoplist };
 
@@ -37,8 +37,8 @@ class App extends React.Component {
       shoplist[`${ingridients[key].ingridient}`] = {
         ingridient,
         count: shoplist[`${ingridients[key].ingridient}`]
-          ? shoplist[`${ingridients[key].ingridient}`].count + count
-          : count,
+          ? shoplist[`${ingridients[key].ingridient}`].count + count * portions
+          : count * portions,
         measure,
       };
     });

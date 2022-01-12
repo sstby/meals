@@ -159,13 +159,18 @@ header svg {
   flex-direction: column;
 }
 
-.recipe {
+.recipe-wrapper {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   margin-bottom: 2rem;
-  display: flex;
-  flex-direction: row;
   padding: 1rem;
   border-radius: 4px;
+  transition: height 5s ease;
+}
+.recipe {
+  display: flex;
+  flex-direction: row;
 }
 
 .recipe img {
@@ -184,4 +189,26 @@ header svg {
 .recipe-info h3 {
   padding: 0;
   margin: 0;
+}
+.recipe-info-row3 {
+  display: flex;
+  flex-direction: column;
+}
+.recipe-ingridients {
+  display: flex;
+  flex-direction: row;
+}
+.recipe-ingridients-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.recipe-ingridients-arrow {
+  margin-top: 4px;
+  transition: 0.5s;
+}
+.recipe-ingridients-arrow.active {
+  transform: rotate(180deg);
 }

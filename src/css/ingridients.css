@@ -1,0 +1,40 @@
+.ingridients-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.portions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.portions svg {
+  cursor: pointer;
+}
+.portions-count {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 3px;
+  margin: 0px 10px !important;
+}
+.ingridients-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ingridients-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.ingridient-spacer {
+  flex: 1;
+  border-bottom: 1px solid grey;
+  margin: 0 5px;
+}
