@@ -168,6 +168,11 @@ header svg {
   border-radius: 4px;
   transition: height 5s ease;
 }
+
+.recipe-image {
+  width: 180px;
+  height: 180px;
+}
 .recipe {
   display: flex;
   flex-direction: row;

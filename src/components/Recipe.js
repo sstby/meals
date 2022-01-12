@@ -4,6 +4,7 @@ import { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 import { IoIosArrowDown } from "react-icons/io";
 import Ingridients from "./Ingridients";
+import Loading from "./Loading";
 
 const Recipe = (props) => {
   const details = props.details;
@@ -47,9 +48,15 @@ const Recipe = (props) => {
   return (
     <div className="recipe-wrapper">
       <div className="recipe">
-        <Link to={recipe_link}>
-          <img src={image} alt="recipe"></img>
-        </Link>
+        <div className="recipe-image">
+          {image ? (
+            <Link to={recipe_link}>
+              <img src={image} alt="recipe"></img>
+            </Link>
+          ) : (
+            <Loading />
+          )}
+        </div>
         <div className="recipe-info">
           <div className="recipe-info-row1">
             <Link to={recipe_link}>
