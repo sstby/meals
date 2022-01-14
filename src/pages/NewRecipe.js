@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ModalSignIn from "../components/ModalSignIn";
-import { useMyContext } from "../context/MyContext";
+import { useAuthContext } from "../context/AuthContext";
 
 const NewRecipe = () => {
   const [modalActive, setModalActive] = useState(true);
-  const { user } = useMyContext();
+  const { user } = useAuthContext();
   return (
     <div>
       make ur own recipe

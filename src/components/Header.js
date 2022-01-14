@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import ModalSignIn from "./ModalSignIn";
-import { useMyContext } from "../context/MyContext";
+import { useAuthContext } from "../context/AuthContext";
 
 const Header = (props) => {
   const [modalActive, setModalActive] = useState(false);
-  const { user, logOut } = useMyContext();
+  const { user, logOut } = useAuthContext();
 
   return (
     <div className="header-wrapper">

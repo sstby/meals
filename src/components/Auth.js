@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import GoogleButton from "react-google-button";
-import { useMyContext } from "../context/MyContext";
+import { useAuthContext } from "../context/AuthContext";
 
 import "../css/login.css";
 
 const Auth = (props) => {
-  const { logIn, signUp, googleSignIn } = useMyContext();
+  const { logIn, signUp, googleSignIn } = useAuthContext();
   const [authType, setAuthType] = useState(props.type);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

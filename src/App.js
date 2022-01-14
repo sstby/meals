@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Recipes from "./pages/Recipes";
 import Shoplist from "./components/ShopList";
@@ -7,15 +7,64 @@ import React from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import RecipePage from "./pages/RecipePage";
-import { MyContextProvider } from "./context/MyContext";
 import NewRecipe from "./pages/NewRecipe";
+import { AuthContext } from "./context/AuthContext";
+import { database } from "./firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 class App extends React.Component {
-  state = {
-    modalSignIn: false,
-    recipes: {},
-    shoplist: {},
-    sidebar: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      modalSignIn: false,
+      recipes: {},
+      shoplist: {},
+      shoplistDB: {},
+      sidebar: false,
+    };
+  }
+
+  componentDidMount() {
+    //Установка текущего пользователя в state
+    const user = this.context.user;
+    this.setState({ user });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //Обновить user в state, если он изменился
+    const user = this.context.user;
+
+    if (user !== this.state.user) {
+      this.setState({ user });
+
+      if (user !== null) {
+        this.getShoplist(user.email);
+      } else {
+        this.setState({ shoplist: {} });
+      }
+    }
+
+    //Записывать обновленный список покупок в бд при его изменении
+    if (this.state.shoplist !== prevState.shoplist) {
+      this.syncFireBaseShoplist(this.state.shoplist);
+    }
+  }
+
+  getShoplist = async (email) => {
+    const shoplistRef = doc(database, "Shoplists", email);
+    const shoplistSnap = await getDoc(shoplistRef);
+    if (shoplistSnap.exists()) {
+      const data = { ...shoplistSnap.data() };
+      this.setState({ shoplist: data });
+    } else {
+      this.setState({ shoplist: {} });
+    }
+  };
+
+  syncFireBaseShoplist = async (shoplist) => {
+    const { user } = this.state;
+    await setDoc(doc(database, "Shoplists", user.email), shoplist);
   };
 
   showSidebar = () => {
@@ -69,44 +118,42 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <MyContextProvider>
-          <Header
-            modalSignIn={this.state.modalSignIn}
-            showSignInModal={this.showSignInModal}
-            showSidebar={this.showSidebar}
-          />
-          <div className="content">
-            <Sidebar sidebar={this.state.sidebar} />
-            <div className={this.state.sidebar ? "main" : "main main-max"}>
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route
-                  exact
-                  path="/recipes"
-                  element={
-                    <Recipes
-                      addToShoplist={this.addToShoplist}
-                      shoplist={this.state.shoplist}
-                    />
-                  }
-                />
-                <Route path="/recipes/:recipeID" element={<RecipePage />} />
-                <Route exact path="/newrecipe" element={<NewRecipe />} />
-              </Routes>
-              <div className="main-shoplist">
-                <Shoplist
-                  removeFromShoplist={this.removeFromShoplist}
-                  updateShopList={this.updateShopList}
-                  shoplist={this.state.shoplist}
-                />
-              </div>
+      <>
+        <Header
+          modalSignIn={this.state.modalSignIn}
+          showSignInModal={this.showSignInModal}
+          showSidebar={this.showSidebar}
+        />
+        <div className="content">
+          <Sidebar sidebar={this.state.sidebar} />
+          <div className={this.state.sidebar ? "main" : "main main-max"}>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route
+                exact
+                path="/recipes"
+                element={
+                  <Recipes
+                    addToShoplist={this.addToShoplist}
+                    shoplist={this.state.shoplist}
+                  />
+                }
+              />
+              <Route path="/recipes/:recipeID" element={<RecipePage />} />
+              <Route exact path="/newrecipe" element={<NewRecipe />} />
+            </Routes>
+            <div className="main-shoplist">
+              <Shoplist
+                removeFromShoplist={this.removeFromShoplist}
+                updateShopList={this.updateShopList}
+                shoplist={this.state.shoplist}
+              />
             </div>
           </div>
-        </MyContextProvider>
-      </Router>
+        </div>
+      </>
     );
   }
 }
-
+App.contextType = AuthContext;
 export default App;

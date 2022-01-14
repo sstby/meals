@@ -10,9 +10,9 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { auth, database } from "../firebase";
 
-export const MyContext = createContext();
+export const AuthContext = createContext();
 
-export function MyContextProvider({ children }) {
+export function AuthContextProvider({ children }) {
   //Всё, что связано с авторизацией пользователя
   const [user, setUser] = useState({});
 
@@ -57,14 +57,14 @@ export function MyContextProvider({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider
+    <AuthContext.Provider
       value={{ user, logIn, signUp, logOut, googleSignIn, createUserProfile }}
     >
       {children}
-    </MyContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
-export function useMyContext() {
-  return useContext(MyContext);
+export function useAuthContext() {
+  return useContext(AuthContext);
 }
