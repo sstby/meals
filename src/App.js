@@ -18,9 +18,7 @@ class App extends React.Component {
     this.state = {
       user: {},
       modalSignIn: false,
-      recipes: {},
       shoplist: {},
-      shoplistDB: {},
       sidebar: false,
     };
   }
