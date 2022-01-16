@@ -1,0 +1,48 @@
+.new-recipe {
+  display: flex;
+  flex-direction: column;
+}
+.new-recipe form label {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-recipe form input[type="file"] {
+  display: none;
+}
+.new-recipe form input[type="number"] {
+  width: 60px;
+}
+.new-recipe h3 {
+  padding: 0;
+  margin: 0;
+}
+.new-recipe-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.new-recipe-info-left {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.new-recipe-info-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.recipe-file {
+  width: 100%;
+  height: 100%;
+}
+.recipe-row {
+  display: flex;
+  flex-direction: row;
+}
