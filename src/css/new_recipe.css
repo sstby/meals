@@ -13,6 +13,11 @@
 .new-recipe form input[type="number"] {
   width: 60px;
 }
+
+.new-recipe form textarea {
+  resize: vertical;
+  width: calc(100% - 0.4rem);
+}
 .new-recipe h3 {
   padding: 0;
   margin: 0;
@@ -24,6 +29,7 @@
   padding: 1rem;
   background-color: white;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .new-recipe-info-left {
@@ -45,4 +51,63 @@
 .recipe-row {
   display: flex;
   flex-direction: row;
+}
+
+.new-recipe-ingridients {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 20px;
+}
+
+.inridients-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ingrideints-plus {
+  cursor: pointer;
+}
+.inridients-row > b {
+  width: 30px;
+}
+
+.ingridient {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+.ingridient > input[type="text"] {
+  flex: 1;
+}
+
+.ingridient > input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 1px solid black;
+  margin-right: 5px;
+}
+.ingridient > select {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 1px solid black;
+}
+
+.new-recipe-cooking {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 20px;
+}
+
+.cooking-step__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
