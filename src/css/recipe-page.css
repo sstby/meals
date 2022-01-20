@@ -3,14 +3,14 @@
   height: 100%;
 }
 .recipe-image-wrapper {
-  min-width: 400px;
-  width: 400px;
-  height: 420px;
+  min-width: 50%;
+  width: 50%;
+  height: 555px;
 }
 
 .recipe-image {
-  min-width: 400px;
-  width: 400px;
+  min-width: 100%;
+  width: 100%;
   height: 100%;
   background-position: top right;
   background-repeat: no-repeat;
@@ -19,9 +19,9 @@
 }
 
 .recipe-image_border {
-  min-width: 800px;
-  width: 800px;
-  height: 200%;
+  min-width: 1000px;
+  width: 1000px;
+  height: 400%;
   background-image: url(../../public/border.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -77,10 +77,3 @@
   background-color: orange;
   border-radius: 5px;
 }
-
-/* .add-ingr {
-  grid-area: plus;
-}
-.ingr {
-  grid-area: ingr;
-} */

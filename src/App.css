@@ -3,7 +3,7 @@
 /* font-family: 'Lato', sans-serif; */
 
 :root {
-  font-size: 16px;
+  font-size: 18px;
   font-family: "Lato", sans-serif;
   --text-primary: #0d353f;
   --text-secondary: #ececec;
@@ -23,7 +23,6 @@ body {
   margin-top: 3rem;
   display: flex;
   background-color: var(--bg-secondary);
-
   min-height: calc(100vh - 3rem);
 }
 
@@ -31,7 +30,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  /* min-width: 1200px; */
-  width: 800px;
+  width: 1000px;
+  /* width: 800px; */
   background-color: #fff;
 }
