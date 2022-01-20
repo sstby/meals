@@ -3,6 +3,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { database, storage } from "../firebase";
 import { useParams } from "react-router-dom";
+import { AiOutlinePlus } from "react-icons/ai";
+import "../css/recipe-page.css";
 
 const RecipePage = () => {
   const [recipe, setRecipe] = useState({});
@@ -26,10 +28,61 @@ const RecipePage = () => {
     getRecipe();
   }, [recipeID]);
 
+  useEffect(() => {
+    const image_div = document.querySelector(".recipe-image");
+    image_div.style.backgroundImage = `url(${recipeImage})`;
+  }, [recipeImage]);
+
   return (
-    <div>
-      <h2>{recipe.name}</h2>
-      <img src={recipeImage} alt="" />
+    <div className="recipe-page_wrapper">
+      <div className="recipe-image-wrapper">
+        <div className="recipe-image">
+          <div className="recipe-image_border"></div>
+        </div>
+      </div>
+      <div className="recipe-info_wrapper">
+        <h1>{recipe.name}</h1>
+        <p>{recipe.desc}</p>
+
+        <p>
+          {recipe.consist &&
+            Object.keys(recipe.consist)
+              .sort()
+              .map((key, index) => {
+                return (
+                  <span key={key}>
+                    {recipe.consist[key]} {key}
+                    {index === 3 ? "" : " | "}
+                  </span>
+                );
+              })}
+        </p>
+        <p>
+          {recipe.portions} portions | {recipe.cookingTime} minutes
+        </p>
+        <div className="recipe-info_ingridients">
+          {recipe.Ingridients &&
+            Object.keys(recipe.Ingridients).map((key, index) => {
+              return (
+                <>
+                  <span className="grid-item">
+                    <AiOutlinePlus className="add-ingr" />
+                  </span>
+                  <span className="grid-item ingr">
+                    {`${recipe.Ingridients[key].count} 
+                    ${
+                      recipe.Ingridients[key].measure === "unit"
+                        ? ""
+                        : recipe.Ingridients[key].measure
+                    } 
+                    ${recipe.Ingridients[key].ingridient}`}
+                  </span>
+                </>
+              );
+            })}
+        </div>
+        <button className="add-ingridients">To Shoplist</button>
+      </div>
     </div>
   );
 };

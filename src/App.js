@@ -123,32 +123,30 @@ class App extends React.Component {
           showSidebar={this.showSidebar}
         />
         <div className="content">
-          <Sidebar sidebar={this.state.sidebar} />
+          {/* <Sidebar sidebar={this.state.sidebar} /> */}
           <div className={this.state.sidebar ? "main" : "main main-max"}>
-            <div className="main-content">
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route
-                  exact
-                  path="/recipes"
-                  element={
-                    <Recipes
-                      addToShoplist={this.addToShoplist}
-                      shoplist={this.state.shoplist}
-                    />
-                  }
-                />
-                <Route path="/recipes/:recipeID" element={<RecipePage />} />
-                <Route exact path="/newrecipe" element={<NewRecipe />} />
-              </Routes>
-            </div>
-            <div className="main-shoplist">
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route
+                exact
+                path="/recipes"
+                element={
+                  <Recipes
+                    addToShoplist={this.addToShoplist}
+                    shoplist={this.state.shoplist}
+                  />
+                }
+              />
+              <Route path="/recipes/:recipeID" element={<RecipePage />} />
+              <Route exact path="/newrecipe" element={<NewRecipe />} />
+            </Routes>
+            {/* <div className="main-shoplist">
               <Shoplist
                 removeFromShoplist={this.removeFromShoplist}
                 updateShopList={this.updateShopList}
                 shoplist={this.state.shoplist}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </>
