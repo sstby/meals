@@ -14,6 +14,15 @@
   width: 60px;
 }
 
+.new-recipe form input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 1px solid black;
+}
+.new-recipe form input[type="number"] {
+  margin-right: 5px;
+}
 .new-recipe form textarea {
   resize: vertical;
   width: calc(100% - 0.4rem);
@@ -91,12 +100,6 @@
   border-bottom: 1px solid black;
   margin-right: 5px;
 }
-.ingridient > select {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  border-bottom: 1px solid black;
-}
 
 .new-recipe-cooking {
   background-color: white;
@@ -110,4 +113,15 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.new-recipe-photo {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

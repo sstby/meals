@@ -18,12 +18,12 @@ const Recipe = (props) => {
   };
 
   useEffect(() => {
-    const ingridients = details.Ingridients;
+    const ingridients = details.ingridients;
     Object.keys(ingridients).forEach((key) => {
       let { count } = ingridients[key];
       ingridients[key].count = count / portions;
     });
-  }, [details.Ingridients]);
+  }, [details.ingridients]);
 
   useEffect(() => {
     const getImage = async () => {
@@ -62,7 +62,6 @@ const Recipe = (props) => {
             <Link to={recipe_link}>
               <h3>{details.name}</h3>
             </Link>
-            <span>{details.mealtime}</span>
           </div>
           <div className="recipe-info-row2">
             {Object.keys(details.consist)
@@ -79,12 +78,12 @@ const Recipe = (props) => {
           <div className="recipe-info-row3">
             <div className="recipe-ingridients">
               <span className="recipe-ingridients-text" onClick={handleExtend}>
-                {Object.keys(details.Ingridients).length} Ingridients
+                {Object.keys(details.ingridients).length} Ingridients
                 <IoIosArrowDown className="recipe-ingridients-arrow" />
               </span>
               <button
                 onClick={() =>
-                  props.addToShoplist(details.Ingridients, portions)
+                  props.addToShoplist(details.ingridients, portions)
                 }
               >
                 Add ingridients to shoplist
@@ -103,7 +102,7 @@ const Recipe = (props) => {
       >
         {ingridientsExtend && (
           <Ingridients
-            ingridients={details.Ingridients}
+            ingridients={details.ingridients}
             portions={portions}
             setPortions={handleSetPortions}
             addToShoplist={props.addToShoplist}
