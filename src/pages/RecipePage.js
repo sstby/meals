@@ -61,21 +61,21 @@ const RecipePage = () => {
           {recipe.portions} portions | {recipe.cookingTime} minutes
         </p>
         <div className="recipe-info_ingridients">
-          {recipe.Ingridients &&
-            Object.keys(recipe.Ingridients).map((key, index) => {
+          {recipe.ingridients &&
+            Object.keys(recipe.ingridients).map((key) => {
               return (
                 <>
                   <span className="grid-item">
                     <AiOutlinePlus className="add-ingr" />
                   </span>
                   <span className="grid-item ingr">
-                    {`${recipe.Ingridients[key].count} 
+                    {`${recipe.ingridients[key].count} 
                     ${
-                      recipe.Ingridients[key].measure === "unit"
+                      recipe.ingridients[key].measure === "unit"
                         ? ""
-                        : recipe.Ingridients[key].measure
+                        : recipe.ingridients[key].measure
                     } 
-                    ${recipe.Ingridients[key].ingridient}`}
+                    ${recipe.ingridients[key].name}`}
                   </span>
                 </>
               );

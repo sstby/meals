@@ -5,7 +5,7 @@
 .recipe-image-wrapper {
   min-width: 50%;
   width: 50%;
-  height: 555px;
+  height: 500px;
 }
 
 .recipe-image {
@@ -19,16 +19,18 @@
 }
 
 .recipe-image_border {
-  min-width: 1000px;
-  width: 1000px;
-  height: 400%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
   background-image: url(../../public/border.png);
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   transition: 1s;
 }
 .recipe-image-wrapper:hover .recipe-image_border {
-  transform: scale(0);
+  margin-top: 100%;
+  margin-left: 100%;
 }
 
 .recipe-info_wrapper {
