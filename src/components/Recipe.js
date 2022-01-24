@@ -48,25 +48,6 @@ const Recipe = (props) => {
       );
   };
 
-  useEffect(() => {
-    if (recipeMenu) {
-      document.addEventListener("click", handleClick);
-    } else {
-      document.removeEventListener("click", handleClick);
-    }
-  }, [recipeMenu]);
-
-  const handleClick = (e) => {
-    console.log("2");
-    showRecipeMenu(false);
-  };
-
-  const handleOpenMenu = (e) => {
-    console.log("1");
-    e.stopPropagation();
-    showRecipeMenu(true);
-  };
-
   return (
     <div className={ingridientsExtend ? "recipe recipe-extended" : "recipe"}>
       <div className="recipe-image">
@@ -115,14 +96,8 @@ const Recipe = (props) => {
       <div className="recipe-controls">
         <HiOutlineDotsVertical
           className="recipe-controls__control"
-          onClick={handleOpenMenu}
+          onClick={(e) => props.handleOpenControls(e, details)}
         />
-        {recipeMenu && (
-          <div className="recipe-controls__menu">
-            <span>Add Ingridients to Shoplist</span>
-            <span>Add Recipe to Favorites</span>
-          </div>
-        )}
       </div>
       <div className="recipe-ingridients-extend">
         {ingridientsExtend && (
