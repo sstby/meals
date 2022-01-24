@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 import { IoIosArrowDown } from "react-icons/io";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import Ingridients from "./Ingridients";
 import Loading from "./Loading";
 
@@ -12,10 +13,25 @@ const Recipe = (props) => {
   const [image, setImage] = useState("");
   const [portions, setPortions] = useState(details.portions);
   const [ingridientsExtend, setIngridientsExtend] = useState(false);
+  const [controlsModal, showControlsModal] = useState(false);
 
   const handleSetPortions = (portions) => {
     portions !== 0 && setPortions(portions);
   };
+  document.addEventListener("click", () => {
+    showControlsModal(false);
+  });
+  useEffect(() => {
+    console.log("mounted");
+    let mounted = true;
+    document.addEventListener("click", () => {
+      mounted && showControlsModal(false);
+    });
+    return () => {
+      mounted = false;
+      console.log("unmounted");
+    };
+  }, []);
 
   useEffect(() => {
     const ingridients = details.ingridients;
@@ -45,9 +61,18 @@ const Recipe = (props) => {
       );
   };
 
+  const handleOpenModal = (event) => {
+    event.stopPropagation();
+    let mousePosition = {};
+    let menuPositio = {};
+    let menuDimension = {};
+
+    showControlsModal(!controlsModal);
+  };
+
   return (
-    <div className="recipe-wrapper">
-      <div className="recipe">
+    <>
+      <div className="recipe" id={details.id}>
         <div className="recipe-image">
           {image ? (
             <Link to={recipe_link}>
@@ -77,19 +102,37 @@ const Recipe = (props) => {
           </div>
           <div className="recipe-info-row3">
             <div className="recipe-ingridients">
-              <span className="recipe-ingridients-text" onClick={handleExtend}>
-                {Object.keys(details.ingridients).length} Ingridients
+              <div className="recipe-ingridients-text" onClick={handleExtend}>
+                <span>
+                  {Object.keys(details.ingridients).length} Ingridients
+                </span>
                 <IoIosArrowDown className="recipe-ingridients-arrow" />
-              </span>
-              <button
+              </div>
+              {/* <button
                 onClick={() =>
                   props.addToShoplist(details.ingridients, portions)
                 }
               >
                 Add ingridients to shoplist
-              </button>
+              </button> */}
             </div>
           </div>
+        </div>
+        <div className="recipe-controls">
+          <HiOutlineDotsVertical
+            className="recipe-controls__control"
+            onClick={handleOpenModal}
+          />
+          {controlsModal && (
+            <div className="recipe-controls__menu">
+              <div className="menu_choice">
+                <span className="menu_choice">Add ingridients to Shoplist</span>
+              </div>
+              <div className="menu_choice">
+                <span className="menu_choice">Add recipe to Favorites</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -109,7 +152,7 @@ const Recipe = (props) => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 export default Recipe;

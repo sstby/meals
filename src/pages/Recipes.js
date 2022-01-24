@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import Recipe from "../components/Recipe";
 import { database } from "../firebase";
+import "../css/recipes.css";
 
 const Recipes = (props) => {
   const [recipes, setRecipes] = useState([]);
@@ -17,7 +18,6 @@ const Recipes = (props) => {
 
   return (
     <>
-      <h1>Recipes</h1>
       <div className="recipes">
         {recipes.map((recipe, index) => {
           return (
