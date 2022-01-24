@@ -75,16 +75,17 @@ class App extends React.Component {
   };
 
   addToShoplist = (ingridients, portions) => {
+    console.log("da");
     //Делаем копию объекта shoplist в state
     const shoplist = { ...this.state.shoplist };
 
     //Перебираем каждый ингридиент и добавляем новые объекты или прибавляем
     Object.keys(ingridients).forEach((key) => {
-      const { ingridient, count, measure } = ingridients[key];
-      shoplist[`${ingridients[key].ingridient}`] = {
-        ingridient,
-        count: shoplist[`${ingridients[key].ingridient}`]
-          ? shoplist[`${ingridients[key].ingridient}`].count + count * portions
+      const { name, count, measure } = ingridients[key];
+      shoplist[`${ingridients[key].name}`] = {
+        name,
+        count: shoplist[`${ingridients[key].name}`]
+          ? shoplist[`${ingridients[key].name}`].count + count * portions
           : count * portions,
         measure,
       };

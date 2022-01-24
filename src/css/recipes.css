@@ -8,16 +8,22 @@
 .recipe {
   background-color: #fff;
   display: grid;
-  grid-template-columns: 200px 1fr 10px;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: 200px 1fr;
+  grid-template-areas:
+    "img info controls"
+    "ing ing ing";
   column-gap: 2rem;
   padding: 1rem;
   margin-top: 2rem;
   border-radius: 10px;
   width: 80%;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
-  height: 200px;
+  min-height: 200px;
 }
+
 .recipe-image {
+  grid-area: img;
   width: 200px;
   height: 200px;
 }
@@ -27,9 +33,19 @@
 }
 
 .recipe-info {
+  grid-area: info;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.recipe-controls {
+  justify-self: end;
+  grid-area: controls;
+}
+
+.recipe-ingridients-extend {
+  grid-area: ing;
 }
 
 .recipe-info a {
@@ -37,9 +53,11 @@
   color: black;
 }
 
-.recipe-info h3 {
+.recipe-info .recipe-header {
   padding: 0;
   margin: 0;
+  font-weight: 700;
+  font-size: 22px;
 }
 
 .recipe-ingridients-text {
@@ -60,7 +78,6 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  width: 400px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
   padding: 1rem;
