@@ -21,8 +21,8 @@ function Home() {
           </Link>
         </div>
       </div>
+      <div className="meals-dashboard"></div>
       <div className="meals-plan-container">
-        <h2>Your meals plan</h2>
         <div className="meals-plan-days">
           {days.map((day) => {
             return (

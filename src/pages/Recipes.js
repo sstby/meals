@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import Recipe from "../components/Recipe";
 import { database } from "../firebase";
 import "../css/recipes.css";
@@ -21,19 +21,12 @@ const Recipes = (props) => {
   }, []);
 
   useEffect(() => {
-    const getRecipes = async () => {
-      if (searchText !== "") {
-        const q = query(
-          collection(database, "Recipes"),
-          where("name", "array-contains", searchText)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, "=>", doc.data());
-        });
-      }
-    };
-    getRecipes();
+    setRecipes((prev) => {
+      return prev.filter((recipe) =>
+        recipe.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    });
+    /* getSearchRecipes(); */
   }, [searchText]);
 
   useEffect(() => {
@@ -43,6 +36,12 @@ const Recipes = (props) => {
       document.removeEventListener("click", handleCloseControls);
     }
   }, [recipeControls]);
+
+  /* const getSearchRecipes = () => {
+    const filteredRecipes = recipes.filter((recipe) =>
+      recipe.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }; */
 
   const handleCloseControls = (e) => {
     showRecipeControls(false);
