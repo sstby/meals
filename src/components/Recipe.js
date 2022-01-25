@@ -6,7 +6,6 @@ import { IoIosArrowDown } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Ingridients from "./Ingridients";
 import Loading from "./Loading";
-import { doc } from "firebase/firestore";
 
 const Recipe = (props) => {
   const details = props.details;
@@ -14,7 +13,6 @@ const Recipe = (props) => {
   const [image, setImage] = useState("");
   const [portions, setPortions] = useState(details.portions);
   const [ingridientsExtend, setIngridientsExtend] = useState(false);
-  const [recipeMenu, showRecipeMenu] = useState(false);
 
   const handleSetPortions = (portions) => {
     portions !== 0 && setPortions(portions);

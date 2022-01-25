@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import Recipe from "../components/Recipe";
 import { database } from "../firebase";
 import "../css/recipes.css";
@@ -9,6 +9,7 @@ const Recipes = (props) => {
   const [recipeControls, showRecipeControls] = useState(false);
   const [controlsPosition, setControlsPosition] = useState({});
   const [controlsRecipe, setControlsRecipe] = useState({});
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const recipesRef = collection(database, "Recipes");
@@ -18,6 +19,22 @@ const Recipes = (props) => {
     };
     getRecipes();
   }, []);
+
+  useEffect(() => {
+    const getRecipes = async () => {
+      if (searchText !== "") {
+        const q = query(
+          collection(database, "Recipes"),
+          where("name", "array-contains", searchText)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, "=>", doc.data());
+        });
+      }
+    };
+    getRecipes();
+  }, [searchText]);
 
   useEffect(() => {
     if (recipeControls) {
@@ -38,10 +55,7 @@ const Recipes = (props) => {
     const parent = e.target.closest(".recipe-controls");
     const position = parent.getBoundingClientRect();
     let yPos = position.top + window.scrollY;
-    console.log("inner height: ", window.innerHeight);
-    console.log("yPos: ", yPos);
     if (window.innerHeight - yPos - 80 <= 0) {
-      console.log(window.innerHeight - yPos - 80);
       yPos -= 63;
     }
     setControlsPosition({
@@ -55,6 +69,13 @@ const Recipes = (props) => {
   return (
     <>
       <div className="recipes">
+        <div className="recipes-search">
+          <input
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.currentTarget.value)}
+          ></input>
+        </div>
         {recipes.map((recipe, index) => {
           return (
             <Recipe
@@ -67,6 +88,7 @@ const Recipes = (props) => {
           );
         })}
 
+        {/*Recipe control menu*/}
         {recipeControls && (
           <div
             className="recipe-controls__menu"
