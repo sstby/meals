@@ -1,0 +1,21 @@
+.progress-bar {
+  width: 100px;
+  height: 10px;
+  background: #d6d6d6;
+
+  border-radius: 10px;
+}
+.progress-bar__progress {
+  height: 100%;
+  width: 50px;
+  background: white;
+  border-radius: 10px;
+}
+
+.dashboard-stats__right,
+.dashboard-stats__left {
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  justify-content: space-evenly;
+}

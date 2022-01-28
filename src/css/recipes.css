@@ -70,9 +70,6 @@
 .recipe-controls__control {
   cursor: pointer;
 }
-.recipe-ingridients-text svg {
-  margin-top: 3px;
-}
 
 .recipe-controls__menu {
   display: flex;
