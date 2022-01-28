@@ -1,39 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import ModalSignIn from "./ModalSignIn";
+import { RiUser3Fill } from "react-icons/ri";
 import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import "../css/header.css";
 
 const Header = (props) => {
+  const navigate = useNavigate();
   const [modalActive, setModalActive] = useState(false);
+  const [userMenu, showUserMenu] = useState(false);
   const { user, logOut } = useAuthContext();
 
+  const handleUserClick = (e) => {
+    e.stopPropagation();
+    if (user) {
+      showUserMenu(true);
+    } else {
+      setModalActive(true);
+    }
+  };
+
+  useEffect(() => {
+    const handleCloseControls = () => {
+      showUserMenu(false);
+    };
+    document.addEventListener("click", handleCloseControls);
+    return () => document.removeEventListener("click", handleCloseControls);
+  }, [userMenu]);
+
   return (
-    <div className="header-wrapper">
-      <header className="header">
-        <div className="header-left">
-          <Link to="#" className="menu-bar">
-            <FaIcons.FaBars onClick={() => props.showSidebar()} />
-          </Link>
-          <Link to="/" className="logo">
-            <h2>MyMeals</h2>
-          </Link>
-        </div>
-        {user ? (
-          <div className="header-user">
-            <span>TEMP {user.email}</span>
-            <button className="signin-btn" onClick={() => logOut()}>
-              Log Out
-            </button>
-          </div>
-        ) : (
-          <button className="signin-btn" onClick={() => setModalActive(true)}>
-            Sign In
-          </button>
+    <header>
+      <Link to="/" className="logo">
+        <h2>MyMeals</h2>
+      </Link>
+      <div className="header-user">
+        <RiUser3Fill onClick={handleUserClick} />
+        {userMenu && user && (
+          <ul className="user-menu">
+            <li key="profile" onClick={() => navigate(`/profile/${user.uid}`)}>
+              <span>Edit Profile</span>
+            </li>
+            <li key={"logout"} onClick={() => logOut()}>
+              <span>Log Out</span>
+            </li>
+          </ul>
         )}
-      </header>
-      <ModalSignIn active={modalActive} setActive={setModalActive} />
-    </div>
+      </div>
+      {modalActive && (
+        <ModalSignIn active={modalActive} setActive={setModalActive} />
+      )}
+    </header>
   );
 };
 

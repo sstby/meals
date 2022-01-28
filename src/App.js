@@ -11,6 +11,7 @@ import NewRecipe from "./pages/NewRecipe";
 import { AuthContext } from "./context/AuthContext";
 import { database } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import Profile from "./pages/Profile";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class App extends React.Component {
     }
 
     //Записывать обновленный список покупок в бд при его изменении
-    if (this.state.shoplist !== prevState.shoplist) {
+    if (this.state.shoplist !== prevState.shoplist && this.user) {
       this.syncFireBaseShoplist(this.state.shoplist);
     }
   }
@@ -75,16 +76,17 @@ class App extends React.Component {
   };
 
   addToShoplist = (ingridients, portions) => {
+    console.log("da");
     //Делаем копию объекта shoplist в state
     const shoplist = { ...this.state.shoplist };
 
     //Перебираем каждый ингридиент и добавляем новые объекты или прибавляем
     Object.keys(ingridients).forEach((key) => {
-      const { ingridient, count, measure } = ingridients[key];
-      shoplist[`${ingridients[key].ingridient}`] = {
-        ingridient,
-        count: shoplist[`${ingridients[key].ingridient}`]
-          ? shoplist[`${ingridients[key].ingridient}`].count + count * portions
+      const { name, count, measure } = ingridients[key];
+      shoplist[`${ingridients[key].name}`] = {
+        name,
+        count: shoplist[`${ingridients[key].name}`]
+          ? shoplist[`${ingridients[key].name}`].count + count * portions
           : count * portions,
         measure,
       };
@@ -123,32 +125,31 @@ class App extends React.Component {
           showSidebar={this.showSidebar}
         />
         <div className="content">
-          <Sidebar sidebar={this.state.sidebar} />
+          {/* <Sidebar sidebar={this.state.sidebar} /> */}
           <div className={this.state.sidebar ? "main" : "main main-max"}>
-            <div className="main-content">
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route
-                  exact
-                  path="/recipes"
-                  element={
-                    <Recipes
-                      addToShoplist={this.addToShoplist}
-                      shoplist={this.state.shoplist}
-                    />
-                  }
-                />
-                <Route path="/recipes/:recipeID" element={<RecipePage />} />
-                <Route exact path="/newrecipe" element={<NewRecipe />} />
-              </Routes>
-            </div>
-            <div className="main-shoplist">
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route
+                exact
+                path="/recipes"
+                element={
+                  <Recipes
+                    addToShoplist={this.addToShoplist}
+                    shoplist={this.state.shoplist}
+                  />
+                }
+              />
+              <Route path="/recipes/:recipeID" element={<RecipePage />} />
+              <Route path="/profile/:userID" element={<Profile />} />
+              <Route exact path="/newrecipe" element={<NewRecipe />} />
+            </Routes>
+            {/* <div className="main-shoplist">
               <Shoplist
                 removeFromShoplist={this.removeFromShoplist}
                 updateShopList={this.updateShopList}
                 shoplist={this.state.shoplist}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </>

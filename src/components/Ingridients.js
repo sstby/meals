@@ -22,9 +22,7 @@ const Ingridients = ({ ingridients, portions, setPortions, addToShoplist }) => {
           .map((key) => {
             return (
               <li key={key}>
-                <span className="ingridient-name">
-                  {ingridients[key].ingridient}
-                </span>
+                <span className="ingridient-name">{ingridients[key].name}</span>
                 <span className="ingridient-spacer"></span>
                 <span className="ingridient-count">
                   {`${ingridients[key].count * portions} ${

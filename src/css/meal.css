@@ -1,0 +1,26 @@
+.meals-plan__meal {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+}
+.meals-plan-row1 {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  column-gap: 2rem;
+  padding: 1rem;
+}
+.meals-info__header {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.meals-cals {
+  border-top: 1px solid black;
+  display: flex;
+  justify-content: center;
+}
+.meals-cals span {
+  padding: 0.5rem;
+}
