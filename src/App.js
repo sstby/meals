@@ -11,6 +11,7 @@ import NewRecipe from "./pages/NewRecipe";
 import { AuthContext } from "./context/AuthContext";
 import { database } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import Profile from "./pages/Profile";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class App extends React.Component {
     }
 
     //Записывать обновленный список покупок в бд при его изменении
-    if (this.state.shoplist !== prevState.shoplist) {
+    if (this.state.shoplist !== prevState.shoplist && this.user) {
       this.syncFireBaseShoplist(this.state.shoplist);
     }
   }
@@ -139,6 +140,7 @@ class App extends React.Component {
                 }
               />
               <Route path="/recipes/:recipeID" element={<RecipePage />} />
+              <Route path="/profile/:userID" element={<Profile />} />
               <Route exact path="/newrecipe" element={<NewRecipe />} />
             </Routes>
             {/* <div className="main-shoplist">

@@ -91,7 +91,7 @@ function Home() {
         </div>
         <div className="meals-plan">
           {meals.map((meal) => {
-            return <Meal type={meal} day={selectedDay} />;
+            return <Meal key={meal} type={meal} day={selectedDay} />;
           })}
         </div>
       </div>
