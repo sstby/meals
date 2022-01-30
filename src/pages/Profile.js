@@ -39,6 +39,21 @@ const Profile = () => {
   }, [userID]);
 
   useEffect(() => {
+    const calculateGoals = () => {
+      let calories =
+        (9.99 * userData.weight +
+          6.25 * userData.height -
+          (4.92 * userData.age + 5)) *
+        userData.activityMultiplier *
+        userData.targetMultiplier;
+      calories = parseInt(calories);
+      let proteins = parseInt((calories * 0.4) / 4);
+      let carbons = parseInt((calories * 0.4) / 4);
+      let fats = parseInt((calories * 0.2) / 9);
+      let water = 40 * userData.weight;
+      setUserGoals({ calories, proteins, carbons, fats, water });
+    };
+
     let noZeros = true;
     Object.keys(userData).forEach((data) => {
       console.log(data);
@@ -46,21 +61,6 @@ const Profile = () => {
     });
     if (noZeros) calculateGoals();
   }, [userData]);
-
-  const calculateGoals = () => {
-    let calories =
-      (9.99 * userData.weight +
-        6.25 * userData.height -
-        (4.92 * userData.age + 5)) *
-      userData.activityMultiplier *
-      userData.targetMultiplier;
-    calories = parseInt(calories);
-    let proteins = parseInt((calories * 0.4) / 4);
-    let carbons = parseInt((calories * 0.4) / 4);
-    let fats = parseInt((calories * 0.2) / 9);
-    let water = 40 * userData.weight;
-    setUserGoals({ calories, proteins, carbons, fats, water });
-  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();

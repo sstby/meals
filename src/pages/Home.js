@@ -1,17 +1,123 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Progress from "../components/Progress";
 import Meal from "../components/Meal";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useAuthContext } from "../context/AuthContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { database } from "../firebase";
 import "react-circular-progressbar/dist/styles.css";
 import "../css/home.css";
 
 const meals = ["breakfast", "lunch", "dinner", "supper"];
-const days = ["Yesterday", "Today", "Tomorrow"];
+const days = ["Prev", "Today", "Next"];
 
 function Home() {
-  const [selectedDay, selectDay] = useState(days[1]);
+  const [selectedDay, selectDay] = useState(() => new Date());
+  const [userGoals, setUserGoals] = useState({});
+  const [userMeals, setUserMeals] = useState({});
+  const { user } = useAuthContext();
+
+  const getDate = () => {
+    return (
+      selectedDay.getFullYear() +
+      "-" +
+      (selectedDay.getMonth() + 1) +
+      "-" +
+      selectedDay.getDate()
+    );
+  };
+  //Получить цели  пользователя
+  useEffect(() => {
+    const createDay = async (date) => {
+      const userRef = doc(database, "Users", user.uid);
+      let dailyMeals = {
+        breakfast: {},
+        lunch: {},
+        dinner: {},
+        supper: {},
+        water: 0,
+      };
+      setDoc(
+        userRef,
+        {
+          meals: {
+            [date]: dailyMeals,
+          },
+        },
+        { merge: true }
+      );
+      setUserMeals(dailyMeals);
+    };
+    if (Object.keys(user).length !== 0) {
+      let date = getDate();
+      const getUserData = async () => {
+        const docRef = doc(database, "Users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setUserGoals(data.goals);
+          const meals = data.meals[date];
+          if (meals === undefined) {
+            //Создать день в бд
+            await createDay(date);
+          } else {
+            //Вписать данные
+            setUserMeals(meals);
+          }
+        }
+      };
+      getUserData();
+    }
+  }, [user, selectedDay]);
+
+  //Обновление Mels в бд
+  useEffect(() => {
+    const updateMeals = async () => {
+      const date = getDate();
+      const { breakfast, lunch, dinner, supper, water } = userMeals;
+      const userRef = doc(database, "Users", user.uid);
+      setDoc(
+        userRef,
+        {
+          meals: {
+            [date]: {
+              breakfast,
+              lunch,
+              dinner,
+              supper,
+              water,
+            },
+          },
+        },
+        { merge: true }
+      );
+    };
+    updateMeals();
+  }, [userMeals]);
+
+  const changeDay = (e) => {
+    const day = e.target.dataset.day;
+    let date = new Date(selectedDay);
+    if (day === "Prev") {
+      date.setDate(date.getDate() - 1);
+    } else if (day === "Next") {
+      date.setDate(date.getDate() + 1);
+    }
+    selectDay(date);
+  };
+
+  const handleAddWater = () => {
+    let meals = Object.assign({}, userMeals);
+    meals = {
+      ...meals,
+      water: meals.water + 250,
+    };
+    setUserMeals(meals);
+  };
+
   return (
     <div className="home-page">
       <div className="home-logo">
@@ -50,11 +156,13 @@ function Home() {
           >
             <CircularProgressbarWithChildren
               className="water-circle"
-              value={(0.7 * 100) / 2}
+              value={(userMeals.water / userGoals.water) * 100}
             >
               <span id="text">Water</span>
-              <span id="water-consumed">0.7 L</span>
-              <div id="water-btn">
+              <span id="water-consumed">
+                {userMeals.water / 1000} / {userGoals.water / 1000} L
+              </span>
+              <div id="water-btn" onClick={handleAddWater}>
                 <AiOutlinePlus />
               </div>
             </CircularProgressbarWithChildren>
@@ -81,8 +189,9 @@ function Home() {
             return (
               <span
                 key={day}
+                data-day={day}
                 className={`day-btn ${day === selectedDay && "active"}`}
-                onClick={() => selectDay(day)}
+                onClick={changeDay}
               >
                 {day}
               </span>
