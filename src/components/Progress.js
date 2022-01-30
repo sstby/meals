@@ -8,11 +8,11 @@ const Progress = (props) => {
       <div className="progress-bar">
         <div
           className="progress-bar__progress"
-          style={{ width: (props.consumed * 100) / props.normal + "%" }}
+          style={{ width: (props.consumed * 100) / props.goal + "%" }}
         ></div>
       </div>
       <span className="progress-consumed">
-        {props.consumed}/{props.normal} g
+        {props.consumed}/{props.goal} g
       </span>
     </div>
   );

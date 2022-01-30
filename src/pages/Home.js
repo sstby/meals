@@ -35,13 +35,13 @@ function Home() {
               class="calories-consumed"
               title={"kkal"}
               consumed={1156}
-              normal={2059}
+              goal={2059}
             />
             <Progress
               class="protein-consumed"
               title={"proteins"}
               consumed={34}
-              normal={103}
+              goal={103}
             />
           </div>
           <div
@@ -64,13 +64,13 @@ function Home() {
               class="carbons-consumed"
               title={"carbons"}
               consumed={150}
-              normal={257}
+              goal={257}
             />
             <Progress
               class="fats-consumed"
               title={"fats"}
               consumed={45}
-              normal={69}
+              goal={69}
             />
           </div>
         </div>

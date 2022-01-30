@@ -17,13 +17,24 @@ export function AuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
   function createUserProfile(registeredUser) {
-    console.log(registeredUser);
     const name = registeredUser.displayName;
-    const email = registeredUser.email;
+    const user_id = registeredUser.uid;
 
-    setDoc(doc(database, "Users", email), {
-      name: name,
-      email: email,
+    setDoc(doc(database, "Users", user_id), {
+      name,
+      data: {
+        age: 0,
+        weight: 0,
+        height: 0,
+        activityMultiplier: 1,
+      },
+      goals: {
+        calories: 0,
+        proteins: 0,
+        carbons: 0,
+        fats: 0,
+      },
+      meals: {},
     });
   }
 

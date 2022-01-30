@@ -1,0 +1,8 @@
+.profile-page {
+  display: flex;
+}
+
+.profile-page form {
+  display: flex;
+  flex-direction: column;
+}
