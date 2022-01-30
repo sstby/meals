@@ -33,6 +33,7 @@ export function AuthContextProvider({ children }) {
         proteins: 0,
         carbons: 0,
         fats: 0,
+        water: 0,
       },
       meals: {},
     });

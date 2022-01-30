@@ -2,24 +2,25 @@ import React, { useState, useEffect } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { auth, database } from "../firebase";
+import ProfileData from "../components/ProfileData";
+import ProfileGoals from "../components/ProfileGoals";
 import "../css/profile.css";
 
 const Profile = () => {
-  const activityTypes = [
-    "",
-    "Sedentary lifestyle without stress",
-    "Workout 1-3 times a week",
-    "Workout 3-5 times a week",
-    "Intensive training 6-7 times a week",
-    "Athletes who exercise more than once a day",
-  ];
-  const activityMultipliers = [1, 1.2, 1.375, 1.55, 1.725, 1.9];
   const [settings, setSettings] = useState("data");
-  const [age, setAge] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [activityMultiplier, setActivity] = useState(1);
-  const [goals, setGoals] = useState({});
+  const [userData, setUserData] = useState({
+    age: 0,
+    weight: 0,
+    height: 0,
+    activityMultiplier: 1,
+    targetMultiplier: 1,
+  });
+  const [userGoals, setUserGoals] = useState({
+    calories: 0,
+    proteins: 0,
+    carbons: 0,
+    fats: 0,
+  });
 
   const { userID } = useParams();
 
@@ -29,82 +30,73 @@ const Profile = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const { data, goals } = docSnap.data();
-        setAge(data.age);
-        setWeight(data.weight);
-        setHeight(data.height);
-        setActivity(data.activityMultiplier);
-        setGoals(goals);
+        const data = docSnap.data();
+        setUserData(data.data);
+        setUserGoals(data.goals);
       }
     };
     getUserData();
   }, [userID]);
 
+  useEffect(() => {
+    let noZeros = true;
+    Object.keys(userData).forEach((data) => {
+      console.log(data);
+      if (userData[data] === 0) noZeros = false;
+    });
+    if (noZeros) calculateGoals();
+  }, [userData]);
+
+  const calculateGoals = () => {
+    let calories =
+      (9.99 * userData.weight +
+        6.25 * userData.height -
+        (4.92 * userData.age + 5)) *
+      userData.activityMultiplier *
+      userData.targetMultiplier;
+    calories = parseInt(calories);
+    let proteins = parseInt((calories * 0.4) / 4);
+    let carbons = parseInt((calories * 0.4) / 4);
+    let fats = parseInt((calories * 0.2) / 9);
+    let water = 40 * userData.weight;
+    setUserGoals({ calories, proteins, carbons, fats, water });
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const userRef = doc(database, "Users", userID);
-    setDoc(
-      userRef,
-      { data: { age, weight, height, activityMultiplier } },
-      { merge: true }
-    );
+    setDoc(userRef, { data: userData, goals: userGoals }, { merge: true });
+  };
+
+  const handleDataFormChange = (e) => {
+    let newData = Object.assign({}, userData);
+    newData = {
+      ...newData,
+      [e.target.name]: parseFloat(e.target.value),
+    };
+    setUserData(newData);
   };
 
   return (
     <>
       {auth.currentUser?.uid === userID ? (
         <div className="profile-page">
-          <form onSubmit={handleFormSubmit}>
-            <label>
-              <span>Age, years</span>
-              <input
-                type="number"
-                name="age"
-                min={0}
-                value={age}
-                onChange={(e) => setAge(parseInt(e.target.value))}
+          <div className="profile-page__sidebar">
+            <ul>
+              <li onClick={() => setSettings("data")}>Data</li>
+              <li onClick={() => setSettings("goals")}>Goals</li>
+            </ul>
+          </div>
+          <div className="profile-page__content">
+            {settings === "data" && (
+              <ProfileData
+                userData={userData}
+                setUserData={handleDataFormChange}
+                handleFormSubmit={handleFormSubmit}
               />
-            </label>
-
-            <label>
-              <span>Weight, kg</span>
-              <input
-                type="number"
-                name="weight"
-                min={0}
-                value={weight}
-                onChange={(e) => setWeight(parseInt(e.target.value))}
-              />
-            </label>
-
-            <label>
-              <span>Height, cm</span>
-              <input
-                type="number"
-                name="height"
-                min={0}
-                value={height}
-                onChange={(e) => setHeight(parseInt(e.target.value))}
-              />
-            </label>
-
-            <label>
-              <span>Activity</span>
-              <select
-                value={activityMultiplier}
-                onChange={(e) => setActivity(parseFloat(e.target.value))}
-              >
-                {activityTypes.map((activity, index) => {
-                  return (
-                    <option key={activity} value={activityMultipliers[index]}>
-                      {activity}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-            <input type="submit" value="Save" />
-          </form>
+            )}
+            {settings === "goals" && <ProfileGoals userGoals={userGoals} />}
+          </div>
         </div>
       ) : (
         auth.currentUser && <h1>Acces Denied</h1>
