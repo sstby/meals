@@ -15,11 +15,11 @@ const days = ["Prev", "Today", "Next"];
 
 function Home() {
   const [selectedDay, selectDay] = useState(() => new Date());
-  const [userGoals, setUserGoals] = useState({});
-  const [userMeals, setUserMeals] = useState({});
+  const [userGoals, setUserGoals] = useState();
+  const [userMeals, setUserMeals] = useState();
   const { user } = useAuthContext();
 
-  const getDate = () => {
+  const getFormatedDate = () => {
     return (
       selectedDay.getFullYear() +
       "-" +
@@ -30,6 +30,7 @@ function Home() {
   };
   //Получить цели  пользователя
   useEffect(() => {
+    //Функция вносит в бд день с пустыми значениями
     const createDay = async (date) => {
       const userRef = doc(database, "Users", user.uid);
       let dailyMeals = {
@@ -50,8 +51,10 @@ function Home() {
       );
       setUserMeals(dailyMeals);
     };
+
+    //Если есть текущий пользователь
     if (Object.keys(user).length !== 0) {
-      let date = getDate();
+      let date = getFormatedDate();
       const getUserData = async () => {
         const docRef = doc(database, "Users", user.uid);
         const docSnap = await getDoc(docRef);
@@ -73,10 +76,10 @@ function Home() {
     }
   }, [user, selectedDay]);
 
-  //Обновление Mels в бд
+  //Обновление Meals в бд
   useEffect(() => {
     const updateMeals = async () => {
-      const date = getDate();
+      const date = getFormatedDate();
       const { breakfast, lunch, dinner, supper, water } = userMeals;
       const userRef = doc(database, "Users", user.uid);
       setDoc(
@@ -95,7 +98,9 @@ function Home() {
         { merge: true }
       );
     };
-    updateMeals();
+    if (userMeals) {
+      updateMeals();
+    }
   }, [userMeals]);
 
   const changeDay = (e) => {
@@ -156,11 +161,22 @@ function Home() {
           >
             <CircularProgressbarWithChildren
               className="water-circle"
-              value={(userMeals.water / userGoals.water) * 100}
+              value={
+                userMeals && userGoals
+                  ? (userMeals.water / userGoals.water) * 100
+                  : 0
+              }
             >
               <span id="text">Water</span>
               <span id="water-consumed">
-                {userMeals.water / 1000} / {userGoals.water / 1000} L
+                <span>
+                  {userMeals ? (userMeals.water / 1000).toString() : null}
+                </span>
+                <span>/</span>
+                <span>
+                  {userGoals ? (userGoals.water / 1000).toString() : null}
+                </span>
+                <span>L</span>
               </span>
               <div id="water-btn" onClick={handleAddWater}>
                 <AiOutlinePlus />
@@ -200,7 +216,13 @@ function Home() {
         </div>
         <div className="meals-plan">
           {meals.map((meal) => {
-            return <Meal key={meal} type={meal} day={selectedDay} />;
+            return (
+              <Meal
+                key={meal}
+                type={meal}
+                data={userMeals && userMeals[meal]}
+              />
+            );
           })}
         </div>
       </div>

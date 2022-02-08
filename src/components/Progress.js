@@ -3,7 +3,7 @@ import "../css/progress.css";
 
 const Progress = (props) => {
   return (
-    <div className={props.class}>
+    <div className={`${props.class} progress`}>
       <span className="progress-title">{props.title}</span>
       <div className="progress-bar">
         <div
@@ -12,7 +12,7 @@ const Progress = (props) => {
         ></div>
       </div>
       <span className="progress-consumed">
-        {props.consumed}/{props.goal} g
+        {props.consumed} / {props.goal} g
       </span>
     </div>
   );

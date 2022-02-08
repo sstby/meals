@@ -19,3 +19,11 @@
   width: 40%;
   justify-content: space-evenly;
 }
+
+.progress span {
+  color: white;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
