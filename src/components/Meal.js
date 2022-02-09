@@ -4,9 +4,17 @@ import "../css/meal.css";
 
 const Meal = (props) => {
   let temp_cals = 369;
+  const [mealsKeys, setMealsKeys] = useState([]);
+  const [modalActive, setModalActive] = useState(false);
   const { type, data } = props;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (data) {
+      setMealsKeys(Object.keys(data));
+    }
+  }, [data]);
+
+  const renderMeals = () => {};
 
   //Здесь нужно загружать данные о приеме пищи по пользователю, типу(завтрак...) и дню
   return (
@@ -18,9 +26,18 @@ const Meal = (props) => {
         <div className="meals-info">
           <span className="meals-info__header">{type}</span>
           <div className="meals-info__data">
-            {/* {data_array.length === 0 ? (
-              <span className="add_meal">Add meal</span>
-            ) : null} */}
+            {mealsKeys.length === 0 ? (
+              <span
+                className="add_meal"
+                onClick={() => {
+                  setModalActive(true);
+                }}
+              >
+                Add meal
+              </span>
+            ) : (
+              renderMeals
+            )}
           </div>
         </div>
       </div>

@@ -28,6 +28,7 @@ function Home() {
       selectedDay.getDate()
     );
   };
+
   //Получить цели  пользователя
   useEffect(() => {
     //Функция вносит в бд день с пустыми значениями
@@ -53,27 +54,31 @@ function Home() {
     };
 
     //Если есть текущий пользователь
-    if (Object.keys(user).length !== 0) {
-      let date = getFormatedDate();
-      const getUserData = async () => {
-        const docRef = doc(database, "Users", user.uid);
-        const docSnap = await getDoc(docRef);
+    if (user) {
+      if (Object.keys(user).length !== 0) {
+        let date = getFormatedDate();
+        const getUserData = async () => {
+          const docRef = doc(database, "Users", user.uid);
+          const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setUserGoals(data.goals);
-          const meals = data.meals[date];
-          if (meals === undefined) {
-            //Создать день в бд
-            await createDay(date);
-          } else {
-            //Вписать данные
-            setUserMeals(meals);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setUserGoals(data.goals);
+            const meals = data.meals[date];
+            if (meals === undefined) {
+              //Создать день в бд
+              await createDay(date);
+            } else {
+              //Вписать данные
+              setUserMeals(meals);
+            }
           }
-        }
-      };
-      getUserData();
+        };
+        getUserData();
+      }
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, selectedDay]);
 
   //Обновление Meals в бд
@@ -101,6 +106,7 @@ function Home() {
     if (userMeals) {
       updateMeals();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userMeals]);
 
   const changeDay = (e) => {
